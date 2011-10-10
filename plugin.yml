@@ -1,0 +1,9 @@
+name: BlockPatrol
+version: 1.0
+main: com.bukkit.systexpro.blockpatrol.BlockPatrolPlugin
+# Put your name here (in plugin.yml.in), if it's not already present.
+authors: ['SystexPro']
+commands:
+  bp:
+    description: All of the BlockPatrol
+    usage: I'm sorry but that is not a command I know.
