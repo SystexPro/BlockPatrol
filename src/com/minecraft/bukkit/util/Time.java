@@ -26,9 +26,9 @@ public class Time {
 	}
 
 	public static String getFullDateTime() {
-		String FirstNameChars = Month().substring( 0, 3 );
+		String month = Month().substring( 0, 3 );
 		String day = Day();
-		return FirstNameChars + "." + day + "@" + time();
+		return month + "." + day + "@" + time();
 	}
 
 }
