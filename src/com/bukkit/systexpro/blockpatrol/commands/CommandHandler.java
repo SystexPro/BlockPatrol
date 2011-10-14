@@ -1,3 +1,8 @@
+/**
+ * THIS JAVA CLASS WAS TAKEN FROM BIGBROTHER.
+ * ALL COPYRIGHTS GOES TO THE ORIGINAL OWNER
+ * AND THE DEV THAT HAS TAKEN OVER THAT PLUGIN.
+ */
 package com.bukkit.systexpro.blockpatrol.commands;
 
 import java.util.ArrayList;
@@ -11,24 +16,30 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import com.bukkit.systexpro.blockpatrol.BlockPatrolPlugin;
+
 public class CommandHandler implements CommandExecutor {
 
+
 	private HashMap<String, CommandExecutor> executors = new HashMap<String, CommandExecutor>();
-
-	public CommandHandler() {
-
+	private BlockPatrolPlugin plugin;
+	
+	public CommandHandler(BlockPatrolPlugin core) {
+		plugin = core;
 	}
 
 	public void registerExecutor(String subcmd, CommandExecutor cmd) {
 		executors.put(subcmd.toLowerCase(), cmd);
 	}
 
-	@Override
+	/**
+	 * OnCommand
+	 */
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 		String commandName = command.getName().toLowerCase();
 		args = groupArgs(args);
 		if (sender instanceof Player) {
-			if (commandName.equals("bp")) {
+			if (commandName.equalsIgnoreCase("bp")) {
 				if (args.length == 0)
 					return help(sender);
 				String subcommandName = args[0].toLowerCase();
@@ -42,8 +53,11 @@ public class CommandHandler implements CommandExecutor {
 				if (args.length == 0) {
 					return false;
 				} else if (args[0].equalsIgnoreCase("version")) {
-					console.sendMessage("Running");
-				} 
+					console.sendMessage("Running BlockPatrol v" + plugin.getDescription().getVersion() + " for Build: " + plugin.settings.build);
+				} else if(args[0].equalsIgnoreCase("reload")) {
+					console.sendMessage(ChatColor.GREEN + "Reloaded Configuration File");
+					plugin.settings.loadConfig();
+				}
 				return true;
 			}
 			return false;
@@ -54,6 +68,7 @@ public class CommandHandler implements CommandExecutor {
 	private boolean help(CommandSender sender) {
 		Player p = (Player) sender;
 		p.sendMessage("[===Block Patrol===]");
+		p.sendMessage("Command Triggers - /bp, /b");
 		p.sendMessage("/bp wand - Gives BlockPatrol Wand(Set in Config)");
 		return true;
 	}
